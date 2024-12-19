@@ -37,6 +37,7 @@
                 </div>
             @endif
 
+            @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'admin')
             <div class="section-body">
                 <div class="card">
                     <div class="card-body">
@@ -88,6 +89,39 @@
                     </div>
                 </div>
             </div>
+            @else
+            <div class="section-body">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="motorTable">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nama Motor</th>
+                                        <th>Nomor Rangka</th>
+                                        <th>Nomor Mesin</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($master_motor as $index => $item)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $item->nama_motor }}</td>
+                                            <td>{{ $item->nomor_rangka }}</td>
+                                            <td>{{ $item->nomor_mesin }}</td>
+                                            
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
         </section>
     </div>
 @endsection

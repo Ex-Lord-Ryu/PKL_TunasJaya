@@ -37,6 +37,7 @@
                 </div>
             @endif
 
+            @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'admin')
             <div class="section-body">
                 <div class="card">
                     <div class="card-body">
@@ -87,6 +88,37 @@
                     </div>
                 </div>
             </div>
+            @else
+            <div class="section-body">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="warnaTable">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>ID</th>
+                                        <th>Nama Warna</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($master_warna as $index => $item)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $item->id_warna }}</td>
+                                            <td>{{ $item->nama_warna }}</td>
+                                            
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
         </section>
     </div>
 @endsection

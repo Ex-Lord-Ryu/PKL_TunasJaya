@@ -5,6 +5,7 @@
 @section('content')
 <div class="main-content">
     <section class="section">
+        @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'user')
         <div class="section-header">
             <h1>Order Motor</h1>
         </div>
@@ -84,6 +85,60 @@
                     </div>
                 </div>
             </div>
+        @else
+        <div class="section-header">
+            <h1>Order Motor</h1>
+        </div>
+
+        <div class="section-body">
+            <div class="card">
+                <div class="card-body">
+
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="stockTable">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Sales</th>
+                                        <th>Motor</th>
+                                        <th>Jumlah</th>
+                                        <th>Harga Jual</th>
+                                        <th>Total</th>
+                                        <th>Tanggal Order</th>
+                                        <th>Status</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($orders as $order)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $order->user->name ?? 'User tidak ditemukan' }}</td>
+                                            <td>{{ $order->master_motor->nama_motor ?? 'Motor tidak ditemukan' }}</td>
+                                            <td>{{ $order->jumlah_motor }}</td>
+                                            <td>Rp {{ number_format($order->harga_jual, 0, ',', '.') }}</td>
+                                            <td>Rp {{ number_format($order->harga_jual * $order->jumlah_motor, 0, ',', '.') }}</td>
+                                            <td>{{ $order->created_at->format('d-m-Y') }}</td>
+                                            <td>
+                                                @if($order->status === 'active')
+                                                    <span class="badge badge-primary">Active</span>
+                                                @elseif($order->status === 'completed')
+                                                    <span class="badge badge-success">Completed</span>
+                                                @elseif($order->status === 'cancelled')
+                                                    <span class="badge badge-danger">Cancelled</span>
+                                                @endif
+                                            </td>
+                                            
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
         </section>
     </div>
 @endsection

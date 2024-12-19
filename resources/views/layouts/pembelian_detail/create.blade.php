@@ -55,10 +55,10 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-1">
+                                        <div class="col-2">
                                             <div class="form-group mb-0">
                                                 <label>Jumlah</label>
-                                                <input type="number" name="motor_quantities[]" class="form-control quantity-input" min="1" placeholder="1" required>
+                                                <input type="number" name="motor_quantities[]" class="form-control quantity-input" min="0" placeholder="0" required>
                                             </div>
                                         </div>
                                         <div class="col">
