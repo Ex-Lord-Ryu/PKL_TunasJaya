@@ -19,5 +19,19 @@ class UserSeeder extends Seeder
             'password' => bcrypt('admin123'),
             'role' => 'superadmin',
         ]);
+
+        \App\Models\User::factory()->create([
+            'name' => 'biji',
+            'email' => 'biji@gmail.com',
+            'password' => bcrypt('biji1234'),
+            'role' => 'admin',
+        ]);
+
+        \App\Models\User::factory()->create([
+            'name' => 'user',
+            'email' => 'joshevachristian@gmail.com',
+            'password' => bcrypt('user1234'),
+            'role' => 'user',
+        ]);
     }
 }

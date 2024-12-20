@@ -18,6 +18,7 @@
                 </div>
             @endif
 
+            @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'admin')
             <div class="section-body">
                 <div class="card">
                     <div class="card-body">
@@ -85,6 +86,40 @@
                     </div>
                 </div>
             </div>
+            @else
+            <div class="section-body">
+                <div class="card">
+                    <div class="card-body">
+                    
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="pembeliandetailTable">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Invoice Pembelian</th>
+                                        <th>Status</th>
+                                        <th>Tanggal Pembuatan</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($pembelian_detail as $index => $item)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $item['invoice_pembelian'] }}</td>
+                                            <td>{{ $item['status'] }}</td>
+                                            <td>{{ $item['tanggal_pembuatan']->format('d-m-Y') }}</td>
+                                            
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
         </section>
     </div>
 @endsection
