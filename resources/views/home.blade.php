@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 borderWidth: 1
             },
             {
-                label: 'Pembelian',
+                label: 'Process Pembelian',
                 data: @json($monthlyData['purchase']),
                 backgroundColor: 'rgba(54, 162, 235, 0.5)',
                 borderColor: 'rgb(54, 162, 235)',

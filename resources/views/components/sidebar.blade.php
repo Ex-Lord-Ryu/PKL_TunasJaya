@@ -204,9 +204,6 @@
                             <i class="fas fa-user-tie"></i> <span>Barang Masuk</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="{{ Request::is('vendor') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ url('vendor') }}">Vendor</a>
-                            </li>
                             <li class="{{ Request::is('pembelian') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ url('pembelian') }}">Pembelian</a>
                             </li>
@@ -229,20 +226,6 @@
                             </li>
                             <li class="{{ Request::is('sold_motor') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ url('sold_motor') }}">Penjualan Motor</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
-                            <i class="fas fa-database"></i> <span>Master Data</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="{{ Request::is('master_motor') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ url('master_motor') }}">Master Motor</a>
-                            </li>
-                            <li class="{{ Request::is('master_warna') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ url('master_warna') }}">Master Warna</a>
                             </li>
                         </ul>
                     </li>

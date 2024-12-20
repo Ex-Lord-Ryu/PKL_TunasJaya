@@ -6,7 +6,7 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Laporan Pembelian Motor</h1>
+            <h1>Laporan Pembelian Motor Proses</h1>
         </div>
 
         @if (session('success'))

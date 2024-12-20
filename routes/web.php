@@ -32,33 +32,35 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/blank-page', [HomeController::class, 'blank'])->name('blank');
 
     // User Management->superadmin
-    Route::get('/user_management', [UserManagementController::class, 'index'])->name('user_management.index')->middleware('superadmin');
-    Route::get('/user_management/edit/{id}', [UserManagementController::class, 'edit'])->name('user_management.edit')->middleware('superadmin');
-    Route::put('/user_management/update/{id}', [UserManagementController::class, 'update'])->name('user_management.update')->middleware('superadmin');
-    Route::delete('/user_management/delete/{id}', [UserManagementController::class, 'destroy'])->name('user_management.delete')->middleware('superadmin');
-    Route::post('/user_management/store', [UserManagementController::class, 'store'])->name('user_management.store')->middleware('superadmin');
-    Route::get('/user_management/create', [UserManagementController::class, 'create'])->name('user_management.create')->middleware('superadmin');
+    Route::prefix('user_management')->middleware('superadmin')->group(function () {
+        Route::get('/', [UserManagementController::class, 'index'])->name('user_management.index');
+        Route::get('/create', [UserManagementController::class, 'create'])->name('user_management.create');
+        Route::post('/', [UserManagementController::class, 'store'])->name('user_management.store');
+        Route::get('/{id}/edit', [UserManagementController::class, 'edit'])->name('user_management.edit');
+        Route::put('/{id}', [UserManagementController::class, 'update'])->name('user_management.update');
+        Route::delete('/{id}', [UserManagementController::class, 'destroy'])->name('user_management.destroy');
+    });
 
     //Barang Masuk->Vendor->superadmin, admin
-    Route::get('/vendor', [VendorController::class, 'index'])->name('vendor.index');
+    Route::get('/vendor', [VendorController::class, 'index'])->name('vendor.index')->middleware('admin');
     Route::get('/vendor/create', [VendorController::class, 'create'])->name('vendor.create')->middleware('admin');
-    Route::post('/vendor', [VendorController::class, 'store'])->name('vendor.store');
+    Route::post('/vendor', [VendorController::class, 'store'])->name('vendor.store')->middleware('admin');
     Route::get('/vendor/{id}/edit', [VendorController::class, 'edit'])->name('vendor.edit')->middleware('admin');
     Route::put('/vendor/{id}', [VendorController::class, 'update'])->name('vendor.update')->middleware('admin');
     Route::delete('/vendor/{id}', [VendorController::class, 'destroy'])->name('vendor.delete')->middleware('admin');
 
     //Master Data->Master Motor->superadmin, admin
-    Route::get('/master_motor', [MasterMotorController::class, 'index'])->name('master_motor.index');
+    Route::get('/master_motor', [MasterMotorController::class, 'index'])->name('master_motor.index')->middleware('admin');
     Route::get('/master_motor/create', [MasterMotorController::class, 'create'])->name('master_motor.create')->middleware('admin');
-    Route::post('/master_motor', [MasterMotorController::class, 'store'])->name('master_motor.store');
+    Route::post('/master_motor', [MasterMotorController::class, 'store'])->name('master_motor.store')->middleware('admin');
     Route::get('/master_motor/{id}/edit', [MasterMotorController::class, 'edit'])->name('master_motor.edit')->middleware('admin');
     Route::put('/master_motor/{id}', [MasterMotorController::class, 'update'])->name('master_motor.update')->middleware('admin');
     Route::delete('/master_motor/{id}', [MasterMotorController::class, 'destroy'])->name('master_motor.delete')->middleware('admin');
 
     //Master Data->Master Warna->superadmin, admin
-    Route::get('/master_warna', [MasterWarnaController::class, 'index'])->name('master_warna.index');
+    Route::get('/master_warna', [MasterWarnaController::class, 'index'])->name('master_warna.index')->middleware('admin');
     Route::get('/master_warna/create', [MasterWarnaController::class, 'create'])->name('master_warna.create')->middleware('admin');
-    Route::post('/master_warna', [MasterWarnaController::class, 'store'])->name('master_warna.store');
+    Route::post('/master_warna', [MasterWarnaController::class, 'store'])->name('master_warna.store')->middleware('admin');
     Route::get('/master_warna/{id_warna}/edit', [MasterWarnaController::class, 'edit'])->name('master_warna.edit')->middleware('admin');
     Route::put('/master_warna/{id_warna}', [MasterWarnaController::class, 'update'])->name('master_warna.update')->middleware('admin');
     Route::delete('/master_warna/{id_warna}', [MasterWarnaController::class, 'destroy'])->name('master_warna.delete')->middleware('admin');
@@ -66,7 +68,7 @@ Route::middleware(['auth'])->group(function () {
     //Barang Masuk->Pembelian->superadmin, admin
     Route::get('/pembelian', [PembelianController::class, 'index'])->name('pembelian.index');
     Route::get('/pembelian/create', [PembelianController::class, 'create'])->name('pembelian.create')->middleware('admin');
-    Route::post('/pembelian', [PembelianController::class, 'store'])->name('pembelian.store');
+    Route::post('/pembelian', [PembelianController::class, 'store'])->name('pembelian.store')->middleware('admin');
     Route::get('/pembelian/{id}/edit', [PembelianController::class, 'edit'])->name('pembelian.edit')->middleware('admin');
     Route::put('/pembelian/{id}', [PembelianController::class, 'update'])->name('pembelian.update')->middleware('admin');
     Route::delete('/pembelian/{id}', [PembelianController::class, 'destroy'])->name('pembelian.delete')->middleware('admin');
@@ -77,7 +79,7 @@ Route::middleware(['auth'])->group(function () {
     //Barang Masuk->Pembelian Detail->superadmin, admin
     Route::get('/pembelian_detail', [PembelianDetailController::class, 'index'])->name('pembelian_detail.index');
     Route::get('/pembelian_detail/create', [PembelianDetailController::class, 'create'])->name('pembelian_detail.create')->middleware('admin');
-    Route::post('/pembelian_detail', [PembelianDetailController::class, 'store'])->name('pembelian_detail.store');
+    Route::post('/pembelian_detail', [PembelianDetailController::class, 'store'])->name('pembelian_detail.store')->middleware('admin');
     Route::get('/pembelian_detail/{id}/edit', [PembelianDetailController::class, 'edit'])->name('pembelian_detail.edit')->middleware('admin');
     Route::put('/pembelian_detail/{id}', [PembelianDetailController::class, 'update'])->name('pembelian_detail.update')->middleware('admin');
     Route::delete('/pembelian_detail/{id}', [PembelianDetailController::class, 'destroy'])->name('pembelian_detail.delete')->middleware('admin');
@@ -100,7 +102,7 @@ Route::middleware(['auth'])->group(function () {
     //Barang Keluar->Order Motor
     Route::get('/order_motor', [OrderMotorController::class, 'index'])->name('order_motor.index');
     Route::get('/order_motor/create', [OrderMotorController::class, 'create'])->name('order_motor.create')->middleware('user');
-    Route::post('/order_motor', [OrderMotorController::class, 'store'])->name('order_motor.store');
+    Route::post('/order_motor', [OrderMotorController::class, 'store'])->name('order_motor.store')->middleware('user');
     Route::get('/order_motor/{orderMotor}/edit', [OrderMotorController::class, 'edit'])->name('order_motor.edit')->middleware('user');
     Route::put('/order_motor/{orderMotor}', [OrderMotorController::class, 'update'])->name('order_motor.update')->middleware('user');
     Route::delete('/order_motor/{orderMotor}', [OrderMotorController::class, 'destroy'])->name('order_motor.destroy')->middleware('user');

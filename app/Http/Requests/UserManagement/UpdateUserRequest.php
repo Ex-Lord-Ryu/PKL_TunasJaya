@@ -22,15 +22,17 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
+        $userId = $this->segment(2);
+
         return [
-            'name' => 'required|string|max:255',
+            'name' => ['required', 'string', 'max:255'],
             'email' => [
                 'required',
                 'email',
-                Rule::unique('users')->ignore($this->route('user_management')),
+                Rule::unique('users', 'email')->ignore($userId)
             ],
-            'password' => 'nullable|string|min:8',
-            'role' => 'required|in:superadmin,admin,user',
+            'role' => ['required', 'string', 'in:superadmin,admin,user'],
+            'password' => ['nullable', 'string', 'min:8'],
         ];
     }
 

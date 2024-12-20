@@ -65,7 +65,7 @@
                                                 <a href="{{ route('user_management.edit', $item->id) }}" class="btn btn-primary btn-sm">
                                                     <i class="fas fa-edit"></i> Edit
                                                 </a>
-                                                <form action="{{ route('user_management.delete', $item->id) }}" method="POST" style="display: inline-block;">
+                                                <form action="{{ route('user_management.destroy', $item->id) }}" method="POST" style="display: inline-block;">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm">

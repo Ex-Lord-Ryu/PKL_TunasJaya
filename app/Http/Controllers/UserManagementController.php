@@ -69,12 +69,13 @@ class UserManagementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, UserManagement $user_management)
+    public function update(UpdateUserRequest $request, $id)
     {
+        $user_management = UserManagement::findOrFail($id);
         $validated = $request->validated();
 
         // Only hash password if it's provided
-        if (isset($validated['password'])) {
+        if (isset($validated['password']) && !empty($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);
         } else {
             unset($validated['password']);
