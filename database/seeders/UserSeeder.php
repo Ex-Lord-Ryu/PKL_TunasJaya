@@ -14,24 +14,31 @@ class UserSeeder extends Seeder
     {
         //Admin
         \App\Models\User::factory()->create([
-            'name' => 'admin',
-            'email' => 'admin@gmail.com',
+            'name' => 'kepalacabang',
+            'email' => 'kepalacabang@gmail.com',
             'password' => bcrypt('admin123'),
             'role' => 'superadmin',
         ]);
 
         \App\Models\User::factory()->create([
-            'name' => 'biji',
-            'email' => 'biji@gmail.com',
-            'password' => bcrypt('biji1234'),
+            'name' => 'operasional',
+            'email' => 'operasional@gmail.com',
+            'password' => bcrypt('admin123'),
             'role' => 'admin',
         ]);
 
         \App\Models\User::factory()->create([
-            'name' => 'user',
-            'email' => 'joshevachristian@gmail.com',
-            'password' => bcrypt('user1234'),
+            'name' => 'finance',
+            'email' => 'finance@gmail.com',
+            'password' => bcrypt('admin123'),
             'role' => 'user',
+        ]);
+
+        \App\Models\User::factory()->create([
+            'name' => 'sales',
+            'email' => 'sales@gmail.com',
+            'password' => bcrypt('admin123'),
+            'role' => 'sales',
         ]);
     }
 }

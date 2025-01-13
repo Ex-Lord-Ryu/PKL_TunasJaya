@@ -107,7 +107,6 @@
                                         <th>Total</th>
                                         <th>Tanggal Order</th>
                                         <th>Status</th>
-                                        
                                     </tr>
                                 </thead>
                                 <tbody>

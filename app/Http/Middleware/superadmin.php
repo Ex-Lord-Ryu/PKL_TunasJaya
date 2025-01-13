@@ -16,16 +16,22 @@ class superadmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = Auth::user();
-        Log::info('Auth Check: ' . (Auth::check() ? 'true' : 'false'));
-        Log::info('User ID: ' . ($user ? $user->id : 'none'));
-        Log::info('User Role: ' . ($user ? $user->role : 'none'));
-        Log::info('Route: ' . $request->route()->getName());
+        // $user = Auth::user();
+        // Log::info('Auth Check: ' . (Auth::check() ? 'true' : 'false'));
+        // Log::info('User ID: ' . ($user ? $user->id : 'none'));
+        // Log::info('User Role: ' . ($user ? $user->role : 'none'));
+        // Log::info('Route: ' . $request->route()->getName());
 
-        if (Auth::check() && $user->role === 'superadmin') {
+        // if (Auth::check() && $user->role === 'superadmin') {
+        //     return $next($request);
+        // }
+
+        // abort(403, 'This action is unauthorized. Role: ' . ($user ? $user->role : 'none'));
+
+        if (Auth::user()->role === 'superadmin') {
             return $next($request);
         }
 
-        abort(403, 'This action is unauthorized. Role: ' . ($user ? $user->role : 'none'));
+        abort(403, 'Tidak Memiliki Akses!');
     }
 }

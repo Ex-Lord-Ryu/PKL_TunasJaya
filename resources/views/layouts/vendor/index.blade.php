@@ -37,90 +37,87 @@
                 </div>
             @endif
 
-            @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'admin')
+            
             <div class="section-body">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row mb-3">
-                            <div class="col-md-12 text-right">
-                                <a href="{{ route('vendor.create') }}" class="btn btn-success"><i class="fas fa-plus"></i>
-                                    Tambah Vendor</a>
+                        @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'admin')
+                            <div class="row mb-3">
+                                <div class="col-md-12 text-right">
+                                    <a href="{{ route('vendor.create') }}" class="btn btn-success"><i class="fas fa-plus"></i>
+                                        Tambah Vendor</a>
+                                </div>
                             </div>
-                        </div>
+                        @endif
 
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover" id="vendorTable">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Nama Vendor</th>
-                                        <th>Alamat</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($vendor as $index => $item)
+                            @if (Auth::user()->role == 'superadmin')
+                                <table class="table table-bordered table-hover" id="vendorTable">
+                                    <thead class="thead-light">
                                         <tr>
-                                            <td>{{ $index + 1 }}</td>
-                                            <td>{{ $item->nama_vendor }}</td>
-                                            <td>{{ $item->alamat }}</td>
-                                            <td>
-                                                <a href="{{ route('vendor.edit', $item->id) }}"
-                                                    class="btn btn-primary btn-sm action-btn mr-1 edit-btn">
-                                                    <i class="fas fa-edit"></i> Edit
-                                                </a>
-                                                <form action="{{ route('vendor.delete', $item->id) }}" method="POST"
-                                                    style="display: inline-block;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="btn btn-danger btn-sm action-btn delete-btn">
-                                                        <i class="fas fa-trash"></i> Delete
-                                                    </button>
-                                                </form>
-                                            </td>
+                                            <th>ID</th>
+                                            <th>Nama Vendor</th>
+                                            <th>Alamat</th>
+                                            <th>Action</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($vendor as $index => $item)
+                                            <tr>
+                                                <td>{{ $index + 1 }}</td>
+                                                <td>{{ $item->nama_vendor }}</td>
+                                                <td>{{ $item->alamat }}</td>
+                                                <td>
+                                                    <a href="{{ route('vendor.edit', $item->id) }}"
+                                                        class="btn btn-primary btn-sm action-btn mr-1 edit-btn">
+                                                        <i class="fas fa-edit"></i> Edit
+                                                    </a>
+                                                    <form action="{{ route('vendor.delete', $item->id) }}" method="POST"
+                                                        style="display: inline-block;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="btn btn-danger btn-sm action-btn delete-btn">
+                                                            <i class="fas fa-trash"></i> Delete
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @else
+                                <table class="table table-bordered table-hover" id="vendorTable">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nama Vendor</th>
+                                            <th>Alamat</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($vendor as $index => $item)
+                                            <tr>
+                                                <td>{{ $index + 1 }}</td>
+                                                <td>{{ $item->nama_vendor }}</td>
+                                                <td>{{ $item->alamat }}</td>
+                                                <td>
+                                                    <a href="{{ route('vendor.edit', $item->id) }}"
+                                                        class="btn btn-primary btn-sm action-btn mr-1 edit-btn">
+                                                        <i class="fas fa-edit"></i> Edit
+                                                    </a>
+                                                    {{-- Delete Button --}}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
-            @else
-
-            <div class="section-body">
-                <div class="card">
-                    <div class="card-body">
-                        <!-- -->
-
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover" id="vendorTable">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Nama Vendor</th>
-                                        <th>Alamat</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($vendor as $index => $item)
-                                        <tr>
-                                            <td>{{ $index + 1 }}</td>
-                                            <td>{{ $item->nama_vendor }}</td>
-                                            <td>{{ $item->alamat }}</td>
-                                            
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endif
-
         </section>
     </div>
 @endsection

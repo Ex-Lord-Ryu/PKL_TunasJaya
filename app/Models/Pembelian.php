@@ -14,12 +14,12 @@ class Pembelian extends Model
     protected $fillable = [
         'vendor_id',
         'invoice_pembelian',
-        'status',
         'metode_pembayaran',
         'metode_pengiriman',
         'tanggal_pembelian',
         'tanggal_pengiriman',
         'tanggal_penerimaan',
+        'status'
     ];
 
     protected $dates = ['tanggal_pembelian', 'tanggal_pengiriman', 'tanggal_penerimaan'];

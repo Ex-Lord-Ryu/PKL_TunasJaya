@@ -9,6 +9,7 @@ use App\Models\Pembelian;
 use Illuminate\Http\Request;
 use App\Models\PembelianDetail;
 use App\Http\Controllers\StockController;
+use App\Http\Requests\StorePembelianRequest;
 
 class PembelianController extends Controller
 {
@@ -31,40 +32,32 @@ class PembelianController extends Controller
         return view('layouts.pembelian.create', compact('vendors', 'availableInvoices', 'pendingPembelian'));
     }
 
-    public function store(Request $request)
+    public function store(StorePembelianRequest $request)
     {
         DB::beginTransaction();
         
         try {
-            $request->validate([
-                'vendor_id' => 'required|exists:vendors,id',
-                'metode_pembayaran' => 'required|in:Cash,Transfer,Kredit',
-                'metode_pengiriman' => 'required|in:Kapal Kargo,Truck,Pick-Up,Mobil-Box',
-            ]);
-
+            Log::info('Attempting to store pembelian with data:', $request->validated());
+            
             // Generate invoice number
             $invoice = $this->generateUniqueInvoice();
+            Log::info('Generated invoice:', ['invoice' => $invoice]);
 
-            // Cek apakah invoice sudah ada
-            $existingPembelian = Pembelian::where('invoice_pembelian', $invoice)->first();
-            
-            if ($existingPembelian) {
-                throw new \Exception('Invoice sudah ada dalam sistem. Silakan coba lagi.');
-            }
+            // Create new pembelian using validated data
+            $pembelian = Pembelian::create([
+                'vendor_id' => $request->vendor_id,
+                'invoice_pembelian' => $invoice,
+                'metode_pembayaran' => $request->metode_pembayaran,
+                'metode_pengiriman' => $request->metode_pengiriman,
+                'tanggal_pembelian' => now(),
+                'status' => 'Pending'
+            ]);
 
-            // Buat pembelian baru
-            $pembelian = new Pembelian();
-            $pembelian->vendor_id = $request->vendor_id;
-            $pembelian->invoice_pembelian = $invoice;
-            $pembelian->metode_pembayaran = $request->metode_pembayaran;
-            $pembelian->metode_pengiriman = $request->metode_pengiriman;
-            $pembelian->tanggal_pembelian = now();
-            $pembelian->status = 'Pending';
-            
-            if (!$pembelian->save()) {
+            if (!$pembelian) {
                 throw new \Exception('Gagal menyimpan data pembelian.');
             }
 
+            Log::info('Pembelian saved successfully', ['pembelian_id' => $pembelian->id]);
             DB::commit();
             
             return response()->json([
@@ -75,6 +68,11 @@ class PembelianController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
+            Log::error('Error in store pembelian:', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
             return response()->json([
                 'success' => false,
                 'message' => 'Terjadi kesalahan: ' . $e->getMessage()
@@ -93,13 +91,30 @@ class PembelianController extends Controller
         $month = date('m');
         $day = date('d');
         
-        // Get count of invoices for today that are not completed
-        $count = Pembelian::whereDate('created_at', today())
-            ->where('status', '!=', 'Completed')
-            ->count() + 1;
+        // Get the latest invoice number for today
+        $latestInvoice = Pembelian::whereDate('created_at', today())
+            ->orderBy('created_at', 'desc')
+            ->first();
+        
+        if ($latestInvoice) {
+            // Extract the counter from the latest invoice
+            $parts = explode('-', $latestInvoice->invoice_pembelian);
+            $lastCounter = intval(end($parts));
+            $count = $lastCounter + 1;
+        } else {
+            $count = 1;
+        }
         
         // Format: INV-YYYYMMDD-XXXX
-        return sprintf("%s-%s%s%s-%04d", $prefix, $year, $month, $day, $count);
+        $invoice = sprintf("%s-%s%s%s-%04d", $prefix, $year, $month, $day, $count);
+        
+        // Check if generated invoice already exists
+        while (Pembelian::where('invoice_pembelian', $invoice)->exists()) {
+            $count++;
+            $invoice = sprintf("%s-%s%s%s-%04d", $prefix, $year, $month, $day, $count);
+        }
+        
+        return $invoice;
     }
 
     /**

@@ -11,7 +11,7 @@ class StoreOrderMotorRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check() && auth()->user()->role === 'superadmin';
+        return false;
     }
 
     /**

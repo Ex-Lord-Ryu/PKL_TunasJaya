@@ -117,6 +117,7 @@
                         </div>
 
                         <div class="table-responsive">
+                            
                             <table class="table table-bordered table-hover" id="pembelianTable">
                                 <thead class="thead-light">
                                     <tr>
